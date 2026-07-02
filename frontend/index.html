@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Consultant Agent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <header>
+            <h1>AI Business Consultant</h1>
+            <p>Your intelligent partner for strategic analysis and growth</p>
+        </header>
+
+        <main>
+            <div class="chat-container">
+                <div class="chat-history" id="chat-history">
+                    <div class="message system">
+                        <div class="avatar">AI</div>
+                        <div class="bubble">
+                            Hello! I am your AI Business Consultant. How can I help you analyze your business ideas today? (e.g. "Online food delivery startup in India")
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <form id="chat-form">
+                        <input type="text" id="user-input" placeholder="Enter your business query..." required autocomplete="off">
+                        <button type="submit" id="send-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
