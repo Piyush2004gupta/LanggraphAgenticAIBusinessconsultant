@@ -5,7 +5,6 @@ from tools.email_tool import send_email
 from tool_runner import run_with_tools
 
 def report_agent(state):
-    print("\n[Report Agent]")
     tools = [save_report, save_pdf, send_email]
     prompt = f"""You are a report writer. Create a professional business report.
 Market: {state.get('market_report')} | Finance: {state.get('finance_report')}

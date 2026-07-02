@@ -4,7 +4,6 @@ from tools.web_scraper import scrape_website
 from tool_runner import run_with_tools
 
 def market_agent(state):
-    print("\n[Market Agent]")
     tools = [search_web, scrape_website]
     prompt = f"""You are a market analyst. Business: {state.get('user_query')}
 Use search_web to research market size, competitors, and trends.

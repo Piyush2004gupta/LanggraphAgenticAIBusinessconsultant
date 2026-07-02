@@ -5,7 +5,6 @@ from tools.chart_tool import create_chart
 from tool_runner import run_with_tools
 
 def finance_agent(state):
-    print("\n[Finance Agent]")
     tools = [calculate, search_web, create_chart]
     prompt = f"""You are a financial analyst. Business: {state.get('user_query')}
 Market Report: {state.get('market_report')}

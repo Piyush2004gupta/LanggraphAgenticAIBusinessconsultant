@@ -3,7 +3,6 @@ from tools.search_tool import search_web
 from tool_runner import run_with_tools
 
 def strategy_agent(state):
-    print("\n[Strategy Agent]")
     tools = [search_web]
     prompt = f"""You are a business strategist.
 Market: {state.get('market_report')} | Finance: {state.get('finance_report')}
