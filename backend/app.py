@@ -1,7 +1,9 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from graph import graph
+import os
 
 app = FastAPI()
 
@@ -25,6 +27,13 @@ async def analyze_business(request: QueryRequest):
     # Return the final report if it exists, otherwise a summary of the state
     final_report = result.get("final_report", "Analysis completed but no final report was generated.")
     return {"response": final_report}
+
+@app.get("/api/download/{filename}")
+async def download_file(filename: str):
+    file_path = os.path.join(os.getcwd(), filename)
+    if os.path.exists(file_path):
+        return FileResponse(file_path, filename=filename)
+    return {"error": "File not found"}
 
 if __name__ == "__main__":
     import uvicorn
