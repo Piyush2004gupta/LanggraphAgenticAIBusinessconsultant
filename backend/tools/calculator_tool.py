@@ -1,4 +1,4 @@
-from langchain.tools import Tool
+from langchain_core.tools import Tool
 
 def calculate(expression: str):
     return str(eval(expression))

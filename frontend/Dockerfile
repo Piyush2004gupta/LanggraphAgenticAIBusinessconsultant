@@ -1,7 +1,16 @@
-FROM node:20
+FROM node:20-slim
+
 WORKDIR /app
-COPY package*.json ./
+
+# Copy package files and install dependencies
+COPY package.json package-lock.json* ./
 RUN npm install
+
+# Copy the rest of the application
 COPY . .
+
+# Expose Vite's default port
 EXPOSE 5173
-CMD ["npm","run","dev","--","--host"]
+
+# Run Vite development server on all network interfaces
+CMD ["npm", "run", "dev", "--", "--host"]
