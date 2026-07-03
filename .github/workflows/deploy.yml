@@ -51,7 +51,7 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-          kubectl set image deployment/ai-backend-deployment ai-backend=ghcr.io/piyush2004gupta/ai-backend:latest
-          kubectl set image deployment/ai-frontend-deployment ai-frontend=ghcr.io/piyush2004gupta/ai-frontend:latest
+          kubectl set image deployment/ai-backend-deployment ai-backend-container=ghcr.io/piyush2004gupta/ai-backend:latest
+          kubectl set image deployment/ai-frontend-deployment ai-frontend-container=ghcr.io/piyush2004gupta/ai-frontend:latest
           kubectl rollout restart deployment ai-backend-deployment
           kubectl rollout restart deployment ai-frontend-deployment
