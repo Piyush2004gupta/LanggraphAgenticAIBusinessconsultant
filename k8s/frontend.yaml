@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ai-frontend-deployment
-  namespace: langgraph-env
 spec:
   replicas: 1 
   selector:
