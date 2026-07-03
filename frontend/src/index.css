@@ -282,3 +282,10 @@ header p {
         max-width: 90%;
     }
 }
+
+/* React Markdown Styles */
+.bubble p { margin-bottom: 0.75rem; }
+.bubble p:last-child { margin-bottom: 0; }
+.bubble ul, .bubble ol { margin-left: 1.5rem; margin-bottom: 0.75rem; }
+.bubble li { margin-bottom: 0.25rem; }
+.bubble strong { font-weight: 700; color: #fff; }

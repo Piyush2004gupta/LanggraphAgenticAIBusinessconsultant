@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import './App.css';
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   }, [messages, isLoading]);
 
   const fetchAgentResponse = async (query) => {
-    const res = await fetch('http://localhost:8000/api/analyze', {
+    const res = await fetch('/api/analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -68,7 +69,9 @@ function App() {
               {messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.sender}`}>
                   <div className="avatar">{msg.sender === 'user' ? 'U' : 'AI'}</div>
-                  <div className="bubble" dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br>') }}></div>
+                  <div className="bubble">
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </div>
                 </div>
               ))}
               
