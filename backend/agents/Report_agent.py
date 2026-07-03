@@ -6,6 +6,7 @@ from tool_runner import run_with_tools
 def report_agent(state):
     tools = [save_report, save_pdf]
     prompt = f"""You are a report writer. Create a professional business report.
+Supervisor Context: {state.get('supervisor_report')}
 Market: {state.get('market_report')} | Finance: {state.get('finance_report')}
 Marketing: {state.get('marketing_report')} | Legal: {state.get('legal_report')}
 Risk: {state.get('risk_report')} | Strategy: {state.get('strategy_report')}

@@ -1,11 +1,14 @@
-from typing import TypedDict
+from typing import TypedDict, Annotated, Sequence
+import operator
+
 class AgentState(TypedDict):
     user_query: str
-    supervisor_agent: str
-    market_agent: str
-    finance_agent: str
-    marketing_agent: str
-    legal_agent: str
-    risk_agent: str
-    strategy_agent: str
-    final_agent: str
+    next_agent: str
+    supervisor_report: str
+    market_report: str
+    finance_report: str
+    marketing_report: str
+    legal_report: str
+    risk_report: str
+    strategy_report: str
+    final_report: str
