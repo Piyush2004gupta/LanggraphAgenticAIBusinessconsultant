@@ -27,13 +27,13 @@ jobs:
 
       - name: Build and Push Backend
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner | lower }}/ai-backend:latest ./backend
-          docker push ghcr.io/${{ github.repository_owner | lower }}/ai-backend:latest
+          docker build -t ghcr.io/piyush2004gupta/ai-backend:latest ./backend
+          docker push ghcr.io/piyush2004gupta/ai-backend:latest
 
       - name: Build and Push Frontend
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner | lower }}/ai-frontend:latest ./frontend
-          docker push ghcr.io/${{ github.repository_owner | lower }}/ai-frontend:latest
+          docker build -t ghcr.io/piyush2004gupta/ai-frontend:latest ./frontend
+          docker push ghcr.io/piyush2004gupta/ai-frontend:latest
 
       - name: Authenticate to Google Cloud
         id: auth
@@ -50,5 +50,7 @@ jobs:
 
       - name: Deploy to GKE
         run: |
+          kubectl set image deployment/ai-backend-deployment ai-backend=ghcr.io/piyush2004gupta/ai-backend:latest
+          kubectl set image deployment/ai-frontend-deployment ai-frontend=ghcr.io/piyush2004gupta/ai-frontend:latest
           kubectl rollout restart deployment ai-backend-deployment
           kubectl rollout restart deployment ai-frontend-deployment
