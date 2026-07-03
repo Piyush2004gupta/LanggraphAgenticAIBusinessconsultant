@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-backend-deployment
+  namespace: langgraph-env
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: ai-backend
+  template:
+    metadata:
+      labels:
+        app: ai-backend
+    spec:
+      containers:
+      - name: ai-backend-container
+        image: piyush20062004/ai-backend:latest
+        imagePullPolicy: Always 
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: app-config
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: OPENAI_API_KEY
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        volumeMounts:
+        - name: backend-storage
+          mountPath: /app/data
+      volumes:
+      - name: backend-storage
+        persistentVolumeClaim:
+          claimName: backend-pvc
