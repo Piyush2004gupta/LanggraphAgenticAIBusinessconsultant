@@ -2,6 +2,7 @@ version: "3.9"
 services:
   backend:
     build: ./backend
+    image: piyush20062004/ai-backend:latest
     container_name: ai-backend
     ports:
       - "8000:8000"
@@ -12,6 +13,7 @@ services:
     restart: always
   frontend:
     build: ./frontend
+    image: piyush20062004/ai-frontend:latest
     container_name: ai-frontend
     ports:
       - "5173:5173"
