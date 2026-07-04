@@ -10,4 +10,4 @@ langfuse
 nemoguardrails
 ragas
 redis
-langsmith
+langsmithlangchainhub
