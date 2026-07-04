@@ -1,4 +1,4 @@
-name: Deploy to GKE
+name: Deploy to Cloud Run
 
 on:
   push:
@@ -11,29 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
-      id-token: 'write' # Required for Workload Identity Federation
-      packages: 'write' # Required for GHCR
+      id-token: 'write'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push Backend
-        run: |
-          docker build -t ghcr.io/piyush2004gupta/ai-backend:latest ./backend
-          docker push ghcr.io/piyush2004gupta/ai-backend:latest
-
-      - name: Build and Push Frontend
-        run: |
-          docker build -t ghcr.io/piyush2004gupta/ai-frontend:latest ./frontend
-          docker push ghcr.io/piyush2004gupta/ai-frontend:latest
 
       - name: Authenticate to Google Cloud
         id: auth
@@ -43,15 +25,26 @@ jobs:
           workload_identity_provider: 'projects/1067543033888/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: '1067543033888-compute@developer.gserviceaccount.com'
 
-      - name: Get GKE Credentials
-        uses: google-github-actions/get-gke-credentials@v2
-        with:
-          cluster_name: 'langgraph-cluster'
-          location: 'asia-south1'
-
-      - name: Deploy to GKE
+      - name: Deploy Backend to Cloud Run
+        id: deploy-backend
         run: |
-          kubectl set image deployment/ai-backend-deployment ai-backend-container=ghcr.io/piyush2004gupta/ai-backend:latest
-          kubectl set image deployment/ai-frontend-deployment ai-frontend-container=ghcr.io/piyush2004gupta/ai-frontend:latest
-          kubectl rollout restart deployment ai-backend-deployment
-          kubectl rollout restart deployment ai-frontend-deployment
+          gcloud run deploy ai-backend \
+            --source ./backend \
+            --region asia-south1 \
+            --allow-unauthenticated \
+            --quiet
+
+      - name: Get Backend URL
+        id: backend-url
+        run: |
+          BACKEND_URL=$(gcloud run services describe ai-backend --region asia-south1 --format 'value(status.url)')
+          echo "url=$BACKEND_URL" >> $GITHUB_OUTPUT
+
+      - name: Deploy Frontend to Cloud Run
+        run: |
+          gcloud run deploy ai-frontend \
+            --source ./frontend \
+            --region asia-south1 \
+            --allow-unauthenticated \
+            --set-env-vars VITE_API_URL=${{ steps.backend-url.outputs.url }} \
+            --quiet
