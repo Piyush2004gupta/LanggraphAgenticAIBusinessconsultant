@@ -1,6 +1,7 @@
 from models.llm import llm
 from pydantic import BaseModel, Field
 from typing import Literal
+from langchain import hub
 
 class RoutingDecision(BaseModel):
     reasoning: str = Field(description="Why you chose this agent")
@@ -10,7 +11,14 @@ class RoutingDecision(BaseModel):
 
 def supervisor_agent(state):
     query = state.get("user_query")
-    prompt = f"""You are a business supervisor. Analyze the following request: '{query}'
+    
+    try:
+        # Attempt to pull a versioned prompt from LangSmith Hub
+        prompt_template = hub.pull("agentic-ai/supervisor-prompt")
+        prompt = prompt_template.invoke({"query": query}).to_string()
+    except Exception:
+        # Fallback to hardcoded prompt
+        prompt = f"""You are a business supervisor. Analyze the following request: '{query}'
 Your job is to route this request to the single most appropriate specialist agent:
 - Market: For market research, competitors, trends.
 - Finance: For financial analysis, budgets, investments.

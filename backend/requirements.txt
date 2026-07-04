@@ -6,3 +6,8 @@ uvicorn
 python-dotenv
 langchain-openai
 matplotlib
+langfuse 
+nemoguardrails
+ragas
+redis
+langsmith
