@@ -63,3 +63,21 @@ async def download_file(filename: str):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+@app.post("/api/tts")
+async def text_to_speech(request: QueryRequest):
+    from openai import OpenAI
+    client = OpenAI()
+    
+    # Note: The valid TTS model in OpenAI is 'tts-1' or 'tts-1-hd'
+    response = client.audio.speech.create(
+        model="tts-1",
+        voice="alloy",
+        input=request.query
+    )
+    
+    output_filename = "reply.mp3"
+    output_path = os.path.join(os.getcwd(), output_filename)
+    response.stream_to_file(output_path)
+    
+    return FileResponse(output_path, media_type="audio/mpeg", filename=output_filename)
